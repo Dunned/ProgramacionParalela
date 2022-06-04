@@ -1,17 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Logica;
+
+package Ejercicio2CronometroHilos;
 
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author eduardo
- */
-public class HiloCronometro extends Thread{
-    public void run(){
+
+public class CronometroRun implements Runnable{
+
+    @Override
+    public void run() {
         int segundos=0;
         int tiempseg=0;
         int minutos=0;
@@ -42,11 +38,10 @@ public class HiloCronometro extends Thread{
             segundos++;
             segtotales++;
         }
-        
     }
     
     public static void main(String[] args) {
-        HiloCronometro h1=new HiloCronometro();
+        Thread h1=new Thread(new CronometroThread());
         h1.start();
     }
 }
