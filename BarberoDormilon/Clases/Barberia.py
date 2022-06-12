@@ -3,17 +3,22 @@ import time
 import random
 
 class Barberia(threading.Thread):
+
+    TARIFACORTE=50 # TARIFA POR CORTE
+
     '''
     nSillas = Sillas Maximas para la espera de clientes , si se supera se van
     nmasterChair = Silla Ocupada , por el cliente , estado de que si se esta cortando
                    a un cliente
     colaClientes = cola para almacenar en orden a los clientes que llegan
+    dineroGanado: Guarda las ganancias por el servicio
     '''
     def __init__(self,numeroSillas):
         threading.Thread.__init__(self, name='Barberia', target=Barberia.run)
         self._nSillas=numeroSillas
         self._masterChair=False
         self._colaClientes=[]
+        self._dineroGanado=0
 
     '''
     Metodo para cortar el pelo de un cliente,
@@ -26,6 +31,7 @@ class Barberia(threading.Thread):
             print('-> BARBERO CORTANDO PELO A CLIENTE',end='\n')
             time.sleep(random.randint(1, 5)) # SIMULACION DE TIEMPO PARA CORTAR
             print('-> BARBERO TERMINO DE CORTAR PELO',end='\n')
+            self._dineroGanado=self._dineroGanado+self.TARIFACORTE
             if len(self._colaClientes)!=0:
                 self._colaClientes.pop()
             self._masterChair = False

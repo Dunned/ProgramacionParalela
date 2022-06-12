@@ -26,10 +26,12 @@ class Barbero(threading.Thread):
 
     '''
     Metodo para dormir a un barbero si no hay clientes
+    aprovechamos para mostrar cuanto dinero se ha ganado hasta el momento
     '''
     def dormir(self):
         try:
             print(f'*** NO HAY CLIENTE EL {self.name} SE PONE A DORMIR ***',end='\n')
+            print(f'DINERO GUARDADO EN CAJA : {self._barberia._dineroGanado}')
             self._duerme=True
             self._barberia.masterChair=True
             with self._condition:
