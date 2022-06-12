@@ -22,7 +22,7 @@ public class Tuberia {
         try {
             synchronized(productos){
                 if (productos.size()<4){
-                    Thread.sleep((int) (Math.random()*(1000-1)) + 1);
+                    Thread.sleep((int) (Math.random()*(3000-1)) + 1);
                     int posicion=productos.size();
                     System.out.println(productos);
                     productos.add("producto");
