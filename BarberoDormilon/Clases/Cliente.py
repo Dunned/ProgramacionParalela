@@ -19,6 +19,7 @@ class Cliente(threading.Thread):
         self._barbero=barbero
         self._barberia=barberia
         self._condition=condition
+        self._name=name
         if barberia.agregarClienteCola(self): # ANTES DE AGREGAR CLIENTE VERIFICAMOS SI HAY CUPOS
             print(f'\tBIENVENIDO NUEVO CLIENTE : {self.getName()}')
             print(f'ESTAS #{self._barberia.numeroClientes}  EN LA COLA', end='\n')
@@ -35,7 +36,7 @@ class Cliente(threading.Thread):
             self.despertar()
         while(True):
             #SE SUELTE LA SILLA DEL BARBERO, SE OCUPE
-            if self._barberia.masterChair==False:
+            if self._barberia.masterChair==False and self._barberia.numeroClientes>0:
                 self._barberia.cortarPelo()
                 break
 

@@ -30,8 +30,10 @@ class Barbero(threading.Thread):
     '''
     def dormir(self):
         try:
+            print('----------------------------------------------------------------',end='\n')
             print(f'*** NO HAY CLIENTE EL {self.name} SE PONE A DORMIR ***',end='\n')
             print(f'DINERO GUARDADO EN CAJA : {self._barberia._dineroGanado}')
+            print('----------------------------------------------------------------', end='\n')
             self._duerme=True
             self._barberia.masterChair=True
             with self._condition:

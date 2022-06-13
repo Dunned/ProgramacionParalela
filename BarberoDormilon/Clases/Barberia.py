@@ -5,7 +5,6 @@ import random
 class Barberia(threading.Thread):
 
     TARIFACORTE=50 # TARIFA POR CORTE
-
     '''
     nSillas = Sillas Maximas para la espera de clientes , si se supera se van
     nmasterChair = Silla Ocupada , por el cliente , estado de que si se esta cortando
@@ -26,14 +25,14 @@ class Barberia(threading.Thread):
     '''
     def cortarPelo(self):
         try:
-            pass
             self._masterChair=True #OCUPAMOS SILLA
-            print('-> BARBERO CORTANDO PELO A CLIENTE',end='\n')
-            time.sleep(random.randint(1, 5)) # SIMULACION DE TIEMPO PARA CORTAR
-            print('-> BARBERO TERMINO DE CORTAR PELO',end='\n')
+            clienteP = self._colaClientes.pop()
+            print(f'-> BARBERO CORTANDO PELO A CLIENTE {clienteP.name}'
+                  ' \u2702\uFE0F \u2702\uFE0F \u2702\uFE0F \u2702\uFE0F',end='\n')
+            time.sleep(5) # SIMULACION DE TIEMPO PARA CORTAR
+            print(f'-> BARBERO TERMINO DE CORTAR PELO {clienteP.name}'
+                  f' \U0001f487 \U0001f487 \U0001f487',end='\n')
             self._dineroGanado=self._dineroGanado+self.TARIFACORTE
-            if len(self._colaClientes)!=0:
-                self._colaClientes.pop()
             self._masterChair = False
 
         except Exception as e:
@@ -46,7 +45,7 @@ class Barberia(threading.Thread):
     '''
     def agregarClienteCola(self,cliente):
         if (self._nSillas==len(self._colaClientes)):
-            print('Llego un Cliente , esta lleno -> Se va')
+            print(f'\nLlego el cliente {cliente.name} , esta lleno -> Se va')
             return False
         else:
             self._colaClientes.append(cliente)
