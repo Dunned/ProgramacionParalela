@@ -96,3 +96,8 @@ replay_pid*
 /Socket_Cliente/build/
 /SocketChatVersionFinal/nbproject/private/
 /SocketChatVersionFinal/build/
+/RMI_Java_Trabajadores/nbproject/private/
+/Servidor_RMI_Interfaz/nbproject/private/
+/Servidor_RMI_Interfaz/dist/
+/Servidor_RMI_Interfaz/build/
+/Cliente_RMI/nbproject/private/
