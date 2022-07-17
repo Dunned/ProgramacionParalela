@@ -6,6 +6,8 @@ package principal;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
@@ -17,21 +19,29 @@ public class Cliente extends javax.swing.JFrame implements Runnable{
     
     String IP="localhost";
     int puerto=5000;
+    
+    /*
     DataInputStream flujoEntrada;
     DataOutputStream flujoSalida;
+    */
+    
+    ObjectInputStream flujoEntrada;
+    ObjectOutputStream flujoSalida;
     Socket skCliente;
     Thread listener;
-    
-    
-    
     
     
     public Cliente() {
         try {
              initComponents();
+              setLocationRelativeTo(null);
              skCliente=new Socket(IP,puerto);
-             flujoEntrada=new DataInputStream(skCliente.getInputStream());
-             flujoSalida=new DataOutputStream(skCliente.getOutputStream());
+             
+             flujoSalida=new ObjectOutputStream(skCliente.getOutputStream());
+             flujoSalida.flush();
+             
+             flujoEntrada=new ObjectInputStream(skCliente.getInputStream());
+             
              
              entradaMensaje.requestFocus();
              
@@ -39,6 +49,7 @@ public class Cliente extends javax.swing.JFrame implements Runnable{
              listener.start();
                   
         } catch (Exception e) {
+            
         }
     }
 
@@ -129,9 +140,12 @@ public class Cliente extends javax.swing.JFrame implements Runnable{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            flujoSalida.writeUTF(entradaMensaje.getText().trim());
+            Dato dato=new Dato(entradaMensaje.getText());
+            flujoSalida.writeObject(dato);
+            flujoSalida.flush();
             historialTexto.append("\nCliente: "+entradaMensaje.getText().trim());
         } catch (Exception e) {
+            
         }
         
         entradaMensaje.setText("");
@@ -186,8 +200,9 @@ public class Cliente extends javax.swing.JFrame implements Runnable{
     public void run() {
         try {
             while (true) {                
-                String linea=flujoEntrada.readUTF();
-                historialTexto.append(linea+"\n");
+                Dato dato= (Dato) flujoEntrada.readObject();
+                
+                historialTexto.append("\nServidor: "+dato.palabra);
             }
         } catch (Exception e) {
         }

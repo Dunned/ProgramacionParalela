@@ -6,6 +6,8 @@ package principal;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import javax.swing.JOptionPane;
@@ -19,8 +21,15 @@ public class Servidor extends javax.swing.JFrame implements Runnable{
     
     static final int puerto=5000;
     ServerSocket skServidor;
+    
+     /*
     DataInputStream flujoEntrada;
     DataOutputStream flujoSalida;
+    */
+    
+    ObjectInputStream flujoEntrada;
+    ObjectOutputStream flujoSalida;
+    
     Socket skCliente;
     Thread hiloServidor;
     
@@ -28,6 +37,7 @@ public class Servidor extends javax.swing.JFrame implements Runnable{
     public Servidor() {
         try {
             initComponents();
+            setLocationRelativeTo(null);
             skServidor=new ServerSocket(puerto);
         } catch (Exception e) {
             System.err.println("Ocurrio un error");
@@ -144,8 +154,12 @@ public class Servidor extends javax.swing.JFrame implements Runnable{
             historialTexto.append("\n Escucho el puerto "+puerto);
             skCliente=skServidor.accept();
             
-            flujoEntrada=new DataInputStream(skCliente.getInputStream());
-            flujoSalida=new DataOutputStream(skCliente.getOutputStream());
+            flujoSalida=new ObjectOutputStream(skCliente.getOutputStream());
+            flujoSalida.flush();
+            
+            flujoEntrada=new ObjectInputStream(skCliente.getInputStream());
+            
+            
             hiloServidor=new Thread(this);
             hiloServidor.start();
         } catch (Exception e) {
@@ -155,11 +169,17 @@ public class Servidor extends javax.swing.JFrame implements Runnable{
 
     private void botonEnviarMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEnviarMensajeActionPerformed
         try {
-            flujoSalida.writeUTF("\n Servidor : "+entradaMensaje.getText().trim());
-            historialTexto.append("\n Servidor : "+entradaMensaje.getText().trim());
+            Dato dato2=new Dato(entradaMensaje.getText());
+            flujoSalida.writeObject(dato2);
+            flujoSalida.flush();
+            
+            historialTexto.append("\nServidor: "+entradaMensaje.getText().trim());
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        entradaMensaje.setText("");
     }//GEN-LAST:event_botonEnviarMensajeActionPerformed
 
     /**
@@ -211,8 +231,9 @@ public class Servidor extends javax.swing.JFrame implements Runnable{
     public void run() {
         try {
             while (true) {                
-                String mensaje =flujoEntrada.readUTF();
-                historialTexto.append("\n Cliente: "+mensaje);
+                Dato dato3 =(Dato) flujoEntrada.readObject();
+                historialTexto.append("\n Cliente: "+dato3.palabra);
+                
             }
         } catch (Exception e) {
             try {
