@@ -1,14 +1,7 @@
-
-package autos.java;
-
+package Autos;
 
 import java.awt.EventQueue;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 import java.util.UUID;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,16 +9,17 @@ import javax.swing.JProgressBar;
 
 //empezaremos a crear las variables que contendrán los progressbar y el JFrame
 //y también la variable para el hilo
-public class CARRERA_AUTOS {
+public class Autos {
 
     JFrame JFrame;
+    JLabel jLabel1;
     JProgressBar hilo1 = new JProgressBar(0, 100);
     JProgressBar hilo2 = new JProgressBar(0, 100);
     JProgressBar hilo3 = new JProgressBar(0, 100);
     JProgressBar hilo4 = new JProgressBar(0, 100);
 
     // Se coloca el JLabel para mandar el mensaje de que carro ganó
-    JLabel mensaje = new JLabel("");
+//    JLabel mensaje = new JLabel("");
 
    
     static boolean Iniciar = false;
@@ -33,14 +27,14 @@ public class CARRERA_AUTOS {
     static boolean Ganador = false;
 
     public synchronized void finish(int i) {
-        mensaje.setVisible(true);
+//        mensaje.setVisible(true);
         //Mensaje que aparecerá cuando ya llego un auto a la meta
-        mensaje.setText("Ganó la carrera, El Auto: " + Auto_ganador + " ");
+//        mensaje.setText("Ganó la carrera, El Auto: " + Auto_ganador + " ");
         if (i == 100) {
             Ganador = true;
             System.out.println("Ganó la carrera, El Auto: " + Auto_ganador + " ");
         }
-        JFrame.getContentPane().add(mensaje);
+//        JFrame.getContentPane().add(mensaje);
 
     }
 
@@ -48,7 +42,7 @@ public class CARRERA_AUTOS {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    CARRERA_AUTOS window = new CARRERA_AUTOS();
+                    Autos window = new Autos();
                     window.JFrame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -57,16 +51,20 @@ public class CARRERA_AUTOS {
         });
     }
 
-    public CARRERA_AUTOS() {
+    public Autos() {
         iniciar();
     }
 
     private void iniciar() {
 
         JFrame = new JFrame();
-        JFrame.setBounds(100, 100, 598, 430);
+        JFrame.setBounds(150, 150, 598, 430);
         JFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JFrame.getContentPane().setLayout(null);
+
+        jLabel1 = new JLabel("SERVIDOR");
+        jLabel1.setBounds(250, 5, 259, 34);
+        JFrame.getContentPane().add(jLabel1);
 
         hilo1.setStringPainted(true);
         hilo1.setForeground(Color.red);
@@ -87,41 +85,23 @@ public class CARRERA_AUTOS {
         hilo4.setForeground(Color.YELLOW);
         hilo4.setBounds(150, 205, 259, 34);
         JFrame.getContentPane().add(hilo4);
-        //Se imprima el mensaje en el JFrame
-        mensaje.setBounds(195, 250, 410, 14);
-        mensaje.setVisible(false);
-        JFrame.getContentPane().add(mensaje);
-
-        //Boton Iniciar
-        JButton btnComenzar = new JButton("Iniciar");
-        btnComenzar.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        btnComenzar.addActionListener(new IniciarCarrera());
-        btnComenzar.setBounds(65, 287, 425, 40);
-        JFrame.getContentPane().add(btnComenzar);
-
     }
 
-    class IniciarCarrera implements ActionListener {
+    public void iniciarCarrera() {
+        if (!Iniciar) {
+            Iniciar = true;
 
-        public void actionPerformed(ActionEvent arg0) {
-            if (!Iniciar) {
-                mensaje.setVisible(false);
-                Iniciar = true;
-                
-                
-                AutoRojo hilo1 = new AutoRojo();
-                hilo1.start();
+            AutoRojo hilo1 = new AutoRojo();
+            hilo1.start();
 
-                AutoAzul hilo2 = new AutoAzul();
-                hilo2.start();
+            AutoAzul hilo2 = new AutoAzul();
+            hilo2.start();
 
-                AutoRojo1 hilo3 = new AutoRojo1();
-                hilo3.start();
+            AutoRojo1 hilo3 = new AutoRojo1();
+            hilo3.start();
 
-                AutoAmarillo hilo4 = new AutoAmarillo();
-                hilo4.start();
-
-            }
+            AutoAmarillo hilo4 = new AutoAmarillo();
+            hilo4.start();
         }
     }
 
@@ -210,7 +190,7 @@ public class CARRERA_AUTOS {
     }
     
     
-    
+//Llamamos la clase AutoAmarillo hilo4
     class AutoAmarillo extends Thread {
 
         public void reset() {

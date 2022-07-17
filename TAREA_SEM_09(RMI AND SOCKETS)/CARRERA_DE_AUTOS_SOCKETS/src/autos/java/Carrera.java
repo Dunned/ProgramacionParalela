@@ -99,7 +99,7 @@ public class Carrera extends javax.swing.JFrame implements Runnable {
         jLabel2.setText("Auto 1: ");
 
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jLabel3.setText("Auto 3: ");
+        jLabel3.setText("Auto 2: ");
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         jLabel4.setText("Auto 4: ");
